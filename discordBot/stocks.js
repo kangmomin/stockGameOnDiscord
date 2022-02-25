@@ -82,10 +82,9 @@ function saleStock(cmd, msg) {
             for(let j = 0; j < user[idx].stock.length; j++) {
                 if (user[idx].stock[j].name == stocks[i].label) {
                     user[idx].stock[j].count -= count
-                    user[idx].stock[j].principal -= (Number(stocks[i].data[stocks[i].data.length - 1]) * count)
+                    if (user[idx].stock[j].count < 1) user[idx].stock[j].principal = 0
                 }
             }
-            
             user[idx].coin += (Number(stocks[i].data[stocks[i].data.length - 1]) * count)
             
             fs.writeFileSync('./data/user.json', JSON.stringify(user))
