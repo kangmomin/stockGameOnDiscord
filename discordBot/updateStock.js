@@ -23,8 +23,8 @@ module.exports = () => {
         if (newPrice < 1) {
             stocks[i].data.push(0)
             for (let j = 0; j < user.length; j++) {
-                for(const [k, stock] of user[j].stock) {
-                    if (stock.name == stocks[i].label) user[j].stock[k].count = 0
+                for(let k = 0; k < user[j].stock.length; k++) {
+                    if (user[j].stock[k].name == stocks[i].label) user[j].stock[k] = undefined
                 }
             }
         }
