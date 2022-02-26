@@ -142,11 +142,12 @@ function buyStock(cmd, msg) {
         }
     }
     
-    msg.channel.send("잘못된 명령어 입니다. \n해당주식이 있는지, 숫자는 잘 입렵되었는지 한번 더 확인해 주십시오.")
+    msg.channel.send("잘못된 명령어 입니다. \n해당 주식이 있는지, 숫자는 잘 입력되었는지 한번 더 확인해 주십시오.")
 }
 
 function stockRoute(cmd, msg) {
     if (cmd.length < 2) return showStock(msg)
+    if (cmd.length > 4) return msg.channel.send("잘못된 명령어 입니다. \n해당 주식이 있는지, 숫자는 잘 입력되었는지 한번 더 확인해 주십시오.")
     switch(cmd[1]) {
         case "구매":
             buyStock(cmd, msg)
