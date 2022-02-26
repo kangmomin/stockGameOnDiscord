@@ -3,7 +3,8 @@ const fs = require('fs')
 function getNewStock(last) {
     if((Math.random() * 2) > 1) {
         let random = Math.ceil(Math.random() * 1000)
-        if(random > 800) random = Math.ceil(Math.random() * 1000)
+        if(random >= 999) random = Math.ceil((Math.random() * 1000) + 10000)
+        else if(random > 800) random = Math.ceil(Math.random() * 1000)
         return last + random
     } else {
         if (last < 1) return 0
@@ -24,7 +25,10 @@ module.exports = () => {
             stocks[i].data.push(0)
             for (let j = 0; j < user.length; j++) {
                 for(let k = 0; k < user[j].stock.length; k++) {
-                    if (user[j].stock[k].name == stocks[i].label) user[j].stock[k] = undefined
+                    if (user[j].stock[k].name == stocks[i].label) {
+                        user[j].stock[k].count = 0
+                        user[j].stock[k].principal = 0
+                    }
                 }
             }
         }
@@ -35,5 +39,6 @@ module.exports = () => {
         stocks[i].date.shift()
     }
     fs.writeFileSync("./data/stocks.json", JSON.stringify(stocks))
+    fs.writeFileSync("./data/user.json", JSON.stringify(user))
     return stocks
 }
