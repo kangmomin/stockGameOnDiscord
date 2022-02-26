@@ -23,7 +23,11 @@ module.exports = (cmd, msg) => {
         break
         case 4:
         const x = Math.floor(Math.random() * 21)
-        users[idx] = gamble(cmd[2], x, 30, users[idx], msg) || users[idx]
+        users[idx] = gamble(cmd[2], x, 15, users[idx], msg) || users[idx]
+        break
+        case 5:
+        const z = Math.floor(Math.random() * 1000)
+        users[idx] = gamble(cmd[2], z, 0.1, users[idx], msg)
         break
         default :
         msg.channel.send("잘못된 단계입니다. 도박의 단계은 1 ~ 4단계까지 있습니다.")
