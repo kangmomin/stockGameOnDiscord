@@ -9,7 +9,8 @@ function getNewStock(last) {
     } else {
         if (last < 1) return 0
         let random = Math.ceil(Math.random() * -1000)
-        if(random < -800) random = Math.ceil(Math.random() * -1000)
+        if(random <= -999) random = Math.ceil((Math.random() * -1000) - 10000)
+        else if(random < -800) random = Math.ceil(Math.random() * -1000)
         return last + random
     }     
 }
