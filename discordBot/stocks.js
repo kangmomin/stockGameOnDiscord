@@ -118,7 +118,7 @@ function saleStock(cmd, msg) {
             user[idx].coin += (Number(stocks[i].data[stocks[i].data.length - 1]) * count)
             
             fs.writeFileSync('./data/user.json', JSON.stringify(user))
-            msg.channel.send(`${cmd[2]}의 주식을 ${cmd[3]}주 판매하였습니다 보유 자금은 \`${user[idx].coin}\`입니다.`)
+            msg.channel.send(`${cmd[2]}의 주식을 ${cmd[3]}주 판매하여 \`${Number(stocks[i].data[stocks[i].data.length - 1]) * count}\`원을 얻었습니다. \n보유 자금은 \`${user[idx].coin}\`입니다.`)
             return
         }
     }
