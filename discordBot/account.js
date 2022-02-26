@@ -3,8 +3,8 @@ const Discord = require('discord.js')
 
 function signUp(msg) {
     let user = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
-    for (user of user) {
-        if (user.userId == msg.author) return msg.channel.send("이미 가입이 완료된 계정입니다.")
+    for (let i = 0; i < user.length; i++) {
+        if (user[i].userId == msg.author) return msg.channel.send("이미 가입이 완료된 계정입니다.")
     }
 
     user.push({
