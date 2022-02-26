@@ -42,6 +42,6 @@ function gamble(gameMoney, x, perc, user, msg) {
         msg.channel.send(`도박에 성공하셨습니다!\n배율 ${x}, 투입 금액 ${gameMoney}, 받은 금액 ${Math.round(gameMoney * x)}, 자본금 ${user.coin}`)
         return user
     }
-    msg.channel.send(`도박에 실패하셨습니다.\n투입 금액 ${gameMoney}, 자본금 ${user.coin}`)
+    msg.channel.send(`도박에 실패하셨습니다.\n배율 ${x}, 투입 금액 ${gameMoney}, 자본금 ${user.coin}`)
     return undefined
 }
