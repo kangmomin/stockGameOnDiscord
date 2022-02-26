@@ -9,6 +9,7 @@ module.exports = (cmd, msg) => {
         if (users[i].userId == msg.author.id) idx = i
     }
     if (typeof idx !== "number") return msg.channel.send("가입되어있지 않은 계정입니다. \"#가입\"을 눌러 가입 후 이용하여 주십시오.")
+    if (cmd[2] > users[idx]) return msg.channel.send(`자본금[${users[idx].coin}]을 초과하는 금액은 사용 불가합니다.`)
     
     switch(percentage) {
         case 1:
@@ -37,8 +38,8 @@ function gamble(gameMoney, x, perc, user, msg) {
     const random = Math.floor(Math.random() * 100)
     user.coin -= gameMoney
     if(random < perc) {
-        user.coin += gameMoney * x
-        msg.channel.send(`도박에 성공하셨습니다!\n배율 ${x}, 투입 금액 ${gameMoney}, 받은 금액 ${gameMoney * x}, 자본금 ${user.coin}`)
+        user.coin += Math.round(gameMoney * x)
+        msg.channel.send(`도박에 성공하셨습니다!\n배율 ${x}, 투입 금액 ${gameMoney}, 받은 금액 ${Math.round(gameMoney * x)}, 자본금 ${user.coin}`)
         return user
     }
     msg.channel.send(`도박에 실패하셨습니다.\n투입 금액 ${gameMoney}, 자본금 ${user.coin}`)
