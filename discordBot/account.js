@@ -25,6 +25,7 @@ function myAccount(msg) {
     for (users of users) {
         if (users.userId == msg.author) user = users
     }
+    if (typeof user !== "object") return msg.channel.send("먼저 '#가입'을 통해 가입을 해주세요.")
     
     let embed = new Discord.MessageEmbed().setTitle(`${user.userName}주식 [${new Date().toLocaleTimeString()}]`)
     .setColor(0x00D8FF)
