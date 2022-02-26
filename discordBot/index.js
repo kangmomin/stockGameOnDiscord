@@ -3,6 +3,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 const stockRoute = require('./stocks')
 const updateStock = require('./updateStock')
 const account = require('./account')
+const gambling = require("./gambling")
 require('dotenv').config()
 
 setInterval(() => {
@@ -20,6 +21,7 @@ client.on("message", msg => {
     
     if (cmd[0] === "주식") stockRoute(cmd, msg)
     if (cmd[0] === "가입") account(cmd, msg)
+    if (cmd[0] === "도박") gambling(cmd, msg)
     if (cmd[0] === "ㄴ") account(cmd, msg)
 })
 
