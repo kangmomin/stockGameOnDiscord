@@ -9,7 +9,7 @@ module.exports = (cmd, msg) => {
         if (users[i].userId == msg.author.id) idx = i
     }
     if (typeof idx !== "number") return msg.channel.send("가입되어있지 않은 계정입니다. \"#가입\"을 눌러 가입 후 이용하여 주십시오.")
-    if (cmd[2] > users[idx]) return msg.channel.send(`자본금[${users[idx].coin}]을 초과하는 금액은 사용 불가합니다.`)
+    if (cmd[2] > users[idx].coin) return msg.channel.send(`자본금[${users[idx].coin}]을 초과하는 금액은 사용 불가합니다.`)
     
     switch(percentage) {
         case 1:
