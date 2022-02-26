@@ -23,6 +23,7 @@ function myAccount(msg) {
     let stocks = JSON.parse(fs.readFileSync("./data/stocks.json", 'utf-8'))
     let user
     for (users of users) {
+        if (typeof users !== "object") continue
         if (users.userId == msg.author) user = users
     }
     if (typeof user !== "object") return msg.channel.send("먼저 '#가입'을 통해 가입을 해주세요.")
