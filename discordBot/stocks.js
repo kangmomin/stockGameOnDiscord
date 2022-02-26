@@ -103,7 +103,7 @@ function saleStock(cmd, msg) {
                 }
             }
             
-            const count = Number(cmd[3])
+            const count = Number(cmd[3]) || ""
             if(!user[idx].stock[stockId] || user[idx].stock[stockId].count < 1) return msg.channel.send("보유하지 않은 주식입니다.")
             if(user[idx].stock[stockId].count < count) return msg.channel.send(`보유한 주식보다 많은 양을 팔순 없습니다.\n보유주식량 ${user[idx].stock[stockId].count}`)
             
