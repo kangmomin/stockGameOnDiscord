@@ -27,7 +27,7 @@ module.exports = (cmd, msg) => {
         break
         case 5:
         const z = Math.floor(Math.random() * 1000)
-        users[idx] = gamble(cmd[2], z, 0.1, users[idx], msg)
+        users[idx] = gamble(cmd[2], z, 0.1, users[idx], msg) || users[idx]
         break
         default :
         msg.channel.send("잘못된 단계입니다. 도박의 단계은 1 ~ 4단계까지 있습니다.")
@@ -39,7 +39,7 @@ module.exports = (cmd, msg) => {
 
 //도박의 성공 유무
 function gamble(gameMoney, x, perc, user, msg) {
-    const random = Math.floor(Math.random() * 100)
+    const random = (Math.random() * 100).toFixed(2)
     user.coin -= gameMoney
     if(random < perc) {
         user.coin += Math.round(gameMoney * x)
