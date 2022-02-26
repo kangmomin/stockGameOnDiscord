@@ -9,6 +9,7 @@ module.exports = (cmd, msg) => {
         if (users[i].userId == msg.author.id) idx = i
     }
     if (typeof idx !== "number") return msg.channel.send("가입되어있지 않은 계정입니다. \"#가입\"을 눌러 가입 후 이용하여 주십시오.")
+    if (!Number(cmd[2]) || Number(cmd[2]) < 1) return msg.channel.send(`투입 금액을 다시 한번 확인해 주십시오.`)
     if (cmd[2] > users[idx].coin) return msg.channel.send(`자본금[${users[idx].coin}]을 초과하는 금액은 사용 불가합니다.`)
     
     switch(percentage) {
@@ -26,11 +27,18 @@ module.exports = (cmd, msg) => {
         users[idx] = gamble(cmd[2], x, 15, users[idx], msg) || users[idx]
         break
         case 5:
-        const z = Math.floor(Math.random() * 1000)
+        const z = Math.floor(Math.random() * 100000)
         users[idx] = gamble(cmd[2], z, 0.1, users[idx], msg) || users[idx]
         break
         default :
-        msg.channel.send("잘못된 단계입니다. 도박의 단계은 1 ~ 4단계까지 있습니다.")
+        msg.channel.send(`잘못된 단계입니다. 도박의 단계은 1 ~ 4단계까지 있습니다.\n
+\`\`\`
+1단계 x1.3 / 70%
+2단계 x2 / 50%
+3단계 x10 / 1%
+4단계 x0 ~ x20 / 15%
+5단계 x0 ~ 100000 / 0.1%
+\`\`\``)
         return
     }
     
