@@ -2,7 +2,8 @@ const QuickChart = require('quickchart-js')
 const Discord = require("discord.js")
 const fs = require('fs')
 
-async function showStockChart(msg) {
+async function showStockChart(cmd, msg) {
+    if (cmd.length == 3) return showOneChart(cmd, msg)
     const stocks = JSON.parse(fs.readFileSync("./data/stocks.json", "utf-8"))
     let stocks_min = []
     
@@ -16,6 +17,35 @@ async function showStockChart(msg) {
         })
     }
 
+    const myChart = new QuickChart();
+    myChart.setConfig({
+        type: 'line',
+        data: { labels: stocks[0].date.slice(stocks[0].date.length - 20), datasets: stocks_min },
+        options: {
+            display: true
+        }
+    }).setWidth(800).setHeight(400)
+    msg.channel.send(await myChart.getShortUrl())
+}
+
+async function showOneChart(cmd, msg) {
+    const stocks = JSON.parse(fs.readFileSync("./data/stocks.json", "utf-8"))
+    let stocks_min = []
+    
+    for (let i = 0; i < stocks.length; i++) {
+        if (cmd[2] == stocks[i].label) {
+            stocks_min.push({
+                label: stocks[i].label,
+                data: stocks[i].data.slice(stocks[i].data.length - 20),
+                borderColor: stocks[i].borderColor,
+                borderWidth: 1,
+                fill: false
+            })
+        }
+    }
+    
+    if(stocks_min.length != 1) return msg.channel.send("존재하지 않는 주식입니다. 다시 입력해 주십시오.")
+    
     const myChart = new QuickChart();
     myChart.setConfig({
         type: 'line',
@@ -156,7 +186,7 @@ function stockRoute(cmd, msg) {
             saleStock(cmd, msg)
             break
         case "차트":
-            showStockChart(msg)
+            showStockChart(cmd, msg)
             break
     }
 }
