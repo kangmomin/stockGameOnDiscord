@@ -140,7 +140,7 @@ function buyStock(cmd, msg) {
     for (let i = 0; i < stocks.length; i++) {
         if (cmd[2] == stocks[i].label) {
             if(stocks[i].data[stocks[i].data.length - 1] < 1) return msg.channel.send("상장폐지된 주식입니다.")
-            const count = Number(cmd[3])
+            const count = Number(cmd[3]) || ""
             
             if (typeof count !== "number") return msg.channel.send("잘못된 명령어 입니다. \n갯수가 잘 입렵되었는지 한번 더 확인해 주십시오.")
             if (user[idx].coin < stocks[i].data[stocks[i].data.length - 1] * count) return msg.channel.send(`보유 금액이 부족합니다.
