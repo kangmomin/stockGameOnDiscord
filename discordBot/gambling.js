@@ -3,7 +3,14 @@ const fs = require("fs")
 module.exports = (cmd, msg) => {
     const percentage = Number(cmd[1]) || null
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
-    if(typeof percentage !== "number" || percentage > 5 || percentage < 1) return msg.channel.send("잘못된 명령어 입니다.\n#도박 1 ~ 4 도박 금액")
+    if(typeof percentage !== "number" || percentage > 5 || percentage < 1) return msg.channel.send(`잘못된 단계입니다. 도박의 단계은 1 ~ 5단계까지 있습니다.
+\`\`\`
+1단계 x1.3 / 70%
+2단계 x2 / 50%
+3단계 x10 / 1%
+4단계 x0 ~ x20 / 15%
+5단계 x0 ~ x100000 / 0.1%
+\`\`\``)
     let idx = undefined
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId == msg.author.id) idx = i
@@ -37,7 +44,7 @@ module.exports = (cmd, msg) => {
 2단계 x2 / 50%
 3단계 x10 / 1%
 4단계 x0 ~ x20 / 15%
-5단계 x0 ~ 100000 / 0.1%
+5단계 x0 ~ x100000 / 0.1%
 \`\`\``)
         return
     }
