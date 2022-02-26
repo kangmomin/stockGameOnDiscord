@@ -8,7 +8,7 @@ module.exports = (cmd, msg) => {
 1단계 x1.3 / 70%
 2단계 x2 / 50%
 3단계 x10 / 1%
-4단계 x0 ~ x20 / 15%
+4단계 x0 ~ x20 / 7%
 5단계 x0 ~ x100000 / 0.1%
 \`\`\``)
     let idx = undefined
@@ -31,7 +31,7 @@ module.exports = (cmd, msg) => {
         break
         case 4:
         const x = Math.floor(Math.random() * 21)
-        users[idx] = gamble(cmd[2], x, 15, users[idx], msg) || users[idx]
+        users[idx] = gamble(cmd[2], x, 7, users[idx], msg) || users[idx]
         break
         case 5:
         const z = Math.floor(Math.random() * 100000)
@@ -43,7 +43,7 @@ module.exports = (cmd, msg) => {
 1단계 x1.3 / 70%
 2단계 x2 / 50%
 3단계 x10 / 1%
-4단계 x0 ~ x20 / 15%
+4단계 x0 ~ x20 / 7%
 5단계 x0 ~ x100000 / 0.1%
 \`\`\``)
         return
