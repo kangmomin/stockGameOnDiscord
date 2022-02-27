@@ -21,7 +21,7 @@ function signUp(msg) {
 function myAccount(msg) {
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
     let stocks = JSON.parse(fs.readFileSync("./data/stocks.json", 'utf-8'))
-    let user
+    let user, totalPorM = 0
     for (users of users) {
         if (typeof users !== "object") continue
         if (users.userId == msg.author) user = users
@@ -30,7 +30,6 @@ function myAccount(msg) {
     
     let embed = new Discord.MessageEmbed().setTitle(`${user.userName}주식 [${new Date().toLocaleTimeString()}]`)
     .setColor(0x00D8FF)
-    .setDescription(`자본금 ${user.coin.toLocaleString('ko-KR')}원`)
     for (let i = 0; i < user.stock.length; i++) {
         let stock
         for (let j = 0; j < stocks.length; j++) if (user.stock[i].name === stocks[j].label) stock = stocks[j]
@@ -40,6 +39,7 @@ function myAccount(msg) {
             if(PorM < 0) upDown = {simple:"-", emoji:"▼"}
             else if(PorM > 0) upDown = {simple:"+", emoji:"▲"}
             else upDown = {simple:"", emoji:""}
+            totalPorM += PorM
             embed.addFields({
                 name: `> ${user.stock[i].name}`,
                 value: `\`\`\`${user.stock[i].count.toLocaleString('ko-KR')}주\`\`\``,
@@ -59,6 +59,8 @@ ${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
             })
         }
     }
+    embed.setDescription(`자본금 ${user.coin.toLocaleString('ko-KR')}원\n전체 손익 ${totalPorM.toLocaleString("ko-KR")}원`)
+    
 
     msg.channel.send({embeds: [embed]})
 }
