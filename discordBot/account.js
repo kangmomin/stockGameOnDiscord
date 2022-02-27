@@ -59,7 +59,8 @@ ${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
             })
         }
     }
-    totalPorM = totalPorM < 0 ? numberToKorean(Math.abs(totalPorM)) : "-" + numberToKorean(Math.abs(totalPorM))
+
+    totalPorM = totalPorM > 0 ? numberToKorean(Math.abs(totalPorM)) : "- " + numberToKorean(Math.abs(totalPorM))
     
     embed.setDescription(`자본금 ${numberToKorean(user.coin)}원\n전체 손익 ${totalPorM}원`)
 
