@@ -59,10 +59,35 @@ ${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
             })
         }
     }
-    embed.setDescription(`자본금 ${user.coin.toLocaleString('ko-KR')}원\n전체 손익 ${totalPorM.toLocaleString("ko-KR")}원`)
+    totalPorM = totalPorM < 0 ? numberToKorean(Math.abs(totalPorM)) : "-" + numberToKorean(Math.abs(totalPorM))
     
+    embed.setDescription(`자본금 ${numberToKorean(user.coin)}원\n전체 손익 ${totalPorM}원`)
 
     msg.channel.send({embeds: [embed]})
+}
+
+function numberToKorean(number){
+    let inputNumber  = number < 0 ? false : number;
+    let unitWords    = ['', '만', '억', '조', '경'];
+    let splitUnit    = 10000;
+    let splitCount   = unitWords.length;
+    let resultArray  = [];
+    let resultString = '';
+
+    for (let i = 0; i < splitCount; i++){
+         let unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
+        unitResult = Math.floor(unitResult);
+        if (unitResult > 0){
+            resultArray[i] = unitResult;
+        }
+    }
+
+    for (let i = 0; i < resultArray.length; i++){
+        if(!resultArray[i]) continue;
+        resultString = String(resultArray[i]) + unitWords[i] + resultString;
+    }
+
+    return resultString;
 }
 
 module.exports = (cmd, msg) => {
