@@ -105,10 +105,10 @@ function saleStock(cmd, msg) {
             
             let count = Number(cmd[3]) || ""
             
-            if (cmd[3] == "다") count = Math.floor(stocks[i].data[stocks[i].data.length - 1] / user[idx].coin)
             if(!user[idx].stock[stockId] || user[idx].stock[stockId].count < 1) return msg.channel.send("보유하지 않은 주식입니다.")
             if(user[idx].stock[stockId].count < count) return msg.channel.send(`보유한 주식보다 많은 양을 팔순 없습니다.\n보유주식량 ${(user[idx].stock[stockId].count).toLocaleString('ko-KR')}`)
             
+            if (cmd[3] == "다") count = user[idx].stock[stockId].count
             if (typeof count !== "number") return msg.channel.send("잘못된 명령어 입니다. \n갯수가 잘 입렵되었는지 한번 더 확인해 주십시오.")
     
             for(let j = 0; j < user[idx].stock.length; j++) {
@@ -120,7 +120,7 @@ function saleStock(cmd, msg) {
             user[idx].coin += (Number(stocks[i].data[stocks[i].data.length - 1]) * count)
             
             fs.writeFileSync('./data/user.json', JSON.stringify(user))
-            msg.channel.send(`${cmd[2]}의 주식을 ${Number(cmd[3]).toLocaleString('ko-KR')}주 판매하여 \`${(Number(stocks[i].data[stocks[i].data.length - 1]) * count).toLocaleString('ko-KR')}\`원을 얻었습니다. \n보유 자금은 \`${(user[idx].coin).toLocaleString('ko-KR')}\`입니다.`)
+            msg.channel.send(`${cmd[2]}의 주식을 ${count.toLocaleString('ko-KR')}주 판매하여 \`${(Number(stocks[i].data[stocks[i].data.length - 1]) * count).toLocaleString('ko-KR')}\`원을 얻었습니다. \n보유 자금은 \`${(user[idx].coin).toLocaleString('ko-KR')}\`입니다.`)
             return
         }
     }
@@ -143,7 +143,7 @@ function buyStock(cmd, msg) {
         if (cmd[2] == stocks[i].label) {
             if(stocks[i].data[stocks[i].data.length - 1] < 1) return msg.channel.send("상장폐지된 주식입니다.")
             let count = Number(cmd[3]) || ""
-            if (cmd[3] == "다") count = Math.floor(stocks[i].data[stocks[i].data.length - 1] / user[idx].coin)
+            if (cmd[3] == "다") count = Math.floor(user[idx].coin / stocks[i].data[stocks[i].data.length - 1])
             
             if (typeof count !== "number") return msg.channel.send("잘못된 명령어 입니다. \n갯수가 잘 입렵되었는지 한번 더 확인해 주십시오.")
             if (user[idx].coin < stocks[i].data[stocks[i].data.length - 1] * count) return msg.channel.send(`보유 금액이 부족합니다.
@@ -170,7 +170,7 @@ function buyStock(cmd, msg) {
             user[idx].coin -= (Number(stocks[i].data[stocks[i].data.length - 1]) * count)
             
             fs.writeFileSync('./data/user.json', JSON.stringify(user))
-            msg.channel.send(`${cmd[2]}의 주식을 ${Number(cmd[3]).toLocaleString('ko-KR')}주 구입하여 \`${userCoin.toLocaleString('ko-KR')} - ${(stocks[i].data.pop() * count).toLocaleString('ko-KR')}\`으로 보유 자금은 \`${(user[idx].coin).toLocaleString('ko-KR')}\`입니다.  `)
+            msg.channel.send(`${cmd[2]}의 주식을 ${count.toLocaleString('ko-KR')}주 구입하여 \`${userCoin.toLocaleString('ko-KR')} - ${(stocks[i].data.pop() * count).toLocaleString('ko-KR')}\`으로 보유 자금은 \`${(user[idx].coin).toLocaleString('ko-KR')}\`입니다.  `)
             return
         }
     }
