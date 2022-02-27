@@ -30,7 +30,7 @@ function myAccount(msg) {
     
     let embed = new Discord.MessageEmbed().setTitle(`${user.userName}주식 [${new Date().toLocaleTimeString()}]`)
     .setColor(0x00D8FF)
-    .setDescription(`자본금 ${user.coin}원`)
+    .setDescription(`자본금 ${user.coin.toLocaleString('ko-KR')}원`)
     for (let i = 0; i < user.stock.length; i++) {
         let stock
         for (let j = 0; j < stocks.length; j++) if (user.stock[i].name === stocks[j].label) stock = stocks[j]
@@ -42,20 +42,20 @@ function myAccount(msg) {
             else upDown = {simple:"", emoji:""}
             embed.addFields({
                 name: `> ${user.stock[i].name}`,
-                value: `\`\`\`${user.stock[i].count}주\`\`\``,
+                value: `\`\`\`${user.stock[i].count.toLocaleString('ko-KR')}주\`\`\``,
                 inline: true
             })
             embed.addFields({
                 name: `손익`,
                 inline: true,
                 value: `\`\`\`diff
-${upDown.simple} ${Math.abs(PorM)}원
+${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
 \`\`\``,
             })
             embed.addFields({
                 name: `원가`,
                 inline: true,
-                value: `\`\`\`${user.stock[i].principal}원\`\`\``,
+                value: `\`\`\`${(user.stock[i].principal / user.stock[i].count).toLocaleString('ko-KR')}원\`\`\``,
             })
         }
     }

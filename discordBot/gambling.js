@@ -5,11 +5,11 @@ module.exports = (cmd, msg) => {
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
     if(typeof percentage !== "number" || percentage > 5 || percentage < 1) return msg.channel.send(`잘못된 단계입니다. 도박의 단계은 1 ~ 5단계까지 있습니다.
 \`\`\`
-1단계 x1.3 / 70%
+1단계 x1.5 / 70%
 2단계 x2 / 50%
 3단계 x10 / 1%
 4단계 x0 ~ x20 / 7%
-5단계 x0 ~ x100000 / 0.1%
+5단계 x0 ~ x100,000 / 0.1%
 \`\`\``)
     let idx = undefined
     for (let i = 0; i < users.length; i++) {
@@ -17,11 +17,11 @@ module.exports = (cmd, msg) => {
     }
     if (typeof idx !== "number") return msg.channel.send("가입되어있지 않은 계정입니다. \"#가입\"을 눌러 가입 후 이용하여 주십시오.")
     if (!Number(cmd[2]) || Number(cmd[2]) < 1) return msg.channel.send(`투입 금액을 다시 한번 확인해 주십시오.`)
-    if (cmd[2] > users[idx].coin) return msg.channel.send(`자본금[${users[idx].coin}]을 초과하는 금액은 사용 불가합니다.`)
+    if (cmd[2] > users[idx].coin) return msg.channel.send(`자본금[${(users[idx].coin).toLocaleString('ko-KR')}]을 초과하는 금액은 사용 불가합니다.`)
     
     switch(percentage) {
         case 1:
-        users[idx] = gamble(cmd[2], 1.3, 70, users[idx], msg) || users[idx]
+        users[idx] = gamble(cmd[2], 1.5, 70, users[idx], msg) || users[idx]
         break
         case 2:
         users[idx] = gamble(cmd[2], 2, 50, users[idx], msg) || users[idx]
@@ -40,11 +40,11 @@ module.exports = (cmd, msg) => {
         default :
         msg.channel.send(`잘못된 단계입니다. 도박의 단계은 1 ~ 4단계까지 있습니다.\n
 \`\`\`
-1단계 x1.3 / 70%
+1단계 x1.5 / 70%
 2단계 x2 / 50%
 3단계 x10 / 1%
 4단계 x0 ~ x20 / 7%
-5단계 x0 ~ x100000 / 0.1%
+5단계 x0 ~ x100,000 / 0.1%
 \`\`\``)
         return
     }
@@ -58,9 +58,9 @@ function gamble(gameMoney, x, perc, user, msg) {
     user.coin -= gameMoney
     if(random < perc) {
         user.coin += Math.round(gameMoney * x)
-        msg.channel.send(`도박에 성공하셨습니다!\n배율 ${x}, 투입 금액 ${gameMoney}, 받은 금액 ${Math.round(gameMoney * x)}, 자본금 ${user.coin}`)
+        msg.channel.send(`도박에 성공하셨습니다!\n배율 ${x.toLocaleString('ko-KR')}, 투입 금액 ${gameMoney.toLocaleString('ko-KR')}, 받은 금액 ${Math.round(gameMoney * x).toLocaleString('ko-KR')}, 자본금 ${(user.coin).toLocaleString('ko-KR')}`)
         return user
     }
-    msg.channel.send(`도박에 실패하셨습니다.\n배율 ${x}, 투입 금액 ${gameMoney}, 자본금 ${user.coin}`)
+    msg.channel.send(`도박에 실패하셨습니다.\n배율 ${x.toLocaleString('ko-KR')}, 투입 금액 ${gameMoney.toLocaleString('ko-KR')}, 자본금 ${(user.coin).toLocaleString('ko-KR')}`)
     return undefined
 }
