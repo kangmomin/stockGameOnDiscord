@@ -103,7 +103,9 @@ function saleStock(cmd, msg) {
                 }
             }
             
-            const count = Number(cmd[3]) || ""
+            let count = Number(cmd[3]) || ""
+            
+            if (cmd[3] == "다") count = Math.floor(stocks[i].data[stocks[i].data.length - 1] / user[idx].coin)
             if(!user[idx].stock[stockId] || user[idx].stock[stockId].count < 1) return msg.channel.send("보유하지 않은 주식입니다.")
             if(user[idx].stock[stockId].count < count) return msg.channel.send(`보유한 주식보다 많은 양을 팔순 없습니다.\n보유주식량 ${(user[idx].stock[stockId].count).toLocaleString('ko-KR')}`)
             
@@ -140,7 +142,8 @@ function buyStock(cmd, msg) {
     for (let i = 0; i < stocks.length; i++) {
         if (cmd[2] == stocks[i].label) {
             if(stocks[i].data[stocks[i].data.length - 1] < 1) return msg.channel.send("상장폐지된 주식입니다.")
-            const count = Number(cmd[3]) || ""
+            let count = Number(cmd[3]) || ""
+            if (cmd[3] == "다") count = Math.floor(stocks[i].data[stocks[i].data.length - 1] / user[idx].coin)
             
             if (typeof count !== "number") return msg.channel.send("잘못된 명령어 입니다. \n갯수가 잘 입렵되었는지 한번 더 확인해 주십시오.")
             if (user[idx].coin < stocks[i].data[stocks[i].data.length - 1] * count) return msg.channel.send(`보유 금액이 부족합니다.
