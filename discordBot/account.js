@@ -94,21 +94,24 @@ function numberToKorean(number){
 function donate(cmd, msg) {
     const mention = msg.mentions.users.values().next().value.id
     const price = Number(cmd[2]) || ""
+    const commission = Math.ceil(price * 0.07)
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
 
     if (typeof price !== "number" || price < 10000 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액(최소 만원)")
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === msg.author.id) {
-            if (users[i].coin < price) return msg.channel.send(`송금액이 자본금보다 많습니다. \n자본금 \`${users[i].coin}\``)
+            if (users[i].coin < price + commission) return msg.channel.send(`송금액이 자본금보다 많습니다. \n자본금 \`${users[i].coin}\` 수수료 \`${commission}\``)
             
-            users[i].coin -= price
+            users[i].coin -= price + commission
             for (let j = 0; j < users.length; j++) {
                 if (users[j].userId == mention) {
                     users[j].coin += price
                     fs.writeFileSync('./data/user.json', JSON.stringify(users))
                     msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${price}원\`을 송금하셨습니다.
-\`${users[i].userName}\`님의 자본금은 이제 \`${users[i].coin}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${users[j].coin}원\`입니다.`)
+\`${users[i].userName}\`님의 자본금은 이제 \`${users[i].coin}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${users[j].coin}원\`입니다.
+수수료 7% \`${commission}원\`
+`)
                     return
                 }
             }
