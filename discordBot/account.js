@@ -92,6 +92,7 @@ function numberToKorean(number){
 }
 
 function donate(cmd, msg) {
+    if (msg.mentions.users.values().next().value === undefined) return msg.channel.send("멘션을 재확인 해주십시오.")
     const mention = msg.mentions.users.values().next().value.id || undefined
     const price = Number(cmd[2]) || ""
     const commission = Math.round(price * 0.07)
