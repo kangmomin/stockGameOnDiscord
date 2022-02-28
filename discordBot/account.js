@@ -62,7 +62,7 @@ ${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
 
     totalPorM = totalPorM > 0 ? numberToKorean(Math.abs(totalPorM)) : "- " + numberToKorean(Math.abs(totalPorM))
     
-    embed.setDescription(`자본금 ${numberToKorean(user.coin)}원\n전체 손익 ${totalPorM}원`)
+    embed.setDescription(`자본금 \`\`\`${numberToKorean(user.coin)}원\`\`\`\n전체 손익 \`\`\`${totalPorM}원\`\`\``)
 
     msg.channel.send({embeds: [embed]})
 }
@@ -91,6 +91,34 @@ function numberToKorean(number){
     return resultString;
 }
 
+function donate(cmd, msg) {
+    const mention = msg.mentions.users.values().next().value.id
+    const price = Number(cmd[2]) || ""
+    let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+
+    console.log(cmd)
+    if (typeof price !== "number") return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액")
+    
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].userId === msg.author.id) {
+            if (users[i].coin < price) return msg.channel.send(`송금액이 자본금보다 많습니다. \n자본금 \`\`\`${users[i].coin}\`\`\``)
+            
+            users[i].coin -= price
+            for (let j = 0; j < users.length; j++) {
+                if (users[j].userId == mention) {
+                    users[j].coin += price
+                    fs.writeFileSync('./data/user.json', JSON.stringify(users))
+                    msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${price}원\`을 송금하셨습니다.
+\`${users[i].userName}\`님의 자본금은 이제 \`${users[i].coin}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${users[j].coin}원\`입니다.`)
+                    return
+                }
+            }
+            return msg.channel.send("멘션한 유저가 가입되지 않은 유저이거나 없는 유저입니다.")
+        }
+    }    
+    return msg.channel.send("#가입을 통해 가입을 먼저 해주십시오.")
+}
+
 module.exports = (cmd, msg) => {
     switch(cmd[0]) {
         case "가입":
@@ -98,6 +126,9 @@ module.exports = (cmd, msg) => {
             break
         case "ㄴ":
             myAccount(msg)
+            break
+        case "송금":
+            donate(cmd, msg)
             break
     }
 }

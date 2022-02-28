@@ -23,6 +23,7 @@ client.on("message", msg => {
     if (cmd[0] === "가입") account(cmd, msg)
     if (cmd[0] === "도박") gambling(cmd, msg)
     if (cmd[0] === "ㄴ") account(cmd, msg)
+    if (cmd[0] === "송금") account(cmd, msg)
 })
 
 client.login(process.env.TOCKEN)
