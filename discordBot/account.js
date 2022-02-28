@@ -101,8 +101,10 @@ function donate(cmd, msg) {
     if (mention === undefined) return msg.channel.send("멘션을 재확인 해주십시오.")
     
     let commis = 0.07
-    if (price > 500000 && price <= 10000000) commis = 0.05 
+    if (price > 500000 && price <= 10000000) commis = 0.03
     if (price > 10000000 && price <= 100000000) commis = 0.01 
+    if (price > 100000000 && price <= 1000000000) commis = 0.001
+    if (price > 1000000000) commis = 0
     
     const commission = Math.round(price * commis)
     
@@ -129,7 +131,21 @@ function donate(cmd, msg) {
     return msg.channel.send("#가입을 통해 가입을 먼저 해주십시오.")
 }
 
+function commissionList(msg) {
+    msg.channel.send(`
+수수료 가격표
+\`\`\`
+50만원이하: 7%
+50만원 초과 ~ 1000만원 이하: 3%
+1000만원 초과 ~ 1억 이하: 1%
+1억 초과 ~ 10억 이하: 0.1%
+10억 초과: 0%
+\`\`\`
+`)
+}
+
 module.exports = (cmd, msg) => {
+    if (cmd[0] === "송금" && cmd.length < 2) return commissionList(msg)
     switch(cmd[0]) {
         case "가입":
             signUp(msg)
