@@ -92,12 +92,13 @@ function numberToKorean(number){
 }
 
 function donate(cmd, msg) {
-    const mention = msg.mentions.users.values().next().value.id
+    const mention = msg.mentions.users.values().next().value.id || undefined
     const price = Number(cmd[2]) || ""
     const commission = Math.round(price * 0.07)
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
 
     if (typeof price !== "number" || price < 10000 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액(최소 만원)")
+    if (mention === undefined) return msg.channel.send("멘션을 재확인 해주십시오.")
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === msg.author.id) {
