@@ -96,12 +96,11 @@ function donate(cmd, msg) {
     const price = Number(cmd[2]) || ""
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
 
-    console.log(cmd)
-    if (typeof price !== "number") return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액")
+    if (typeof price !== "number" || price < 1 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액")
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === msg.author.id) {
-            if (users[i].coin < price) return msg.channel.send(`송금액이 자본금보다 많습니다. \n자본금 \`\`\`${users[i].coin}\`\`\``)
+            if (users[i].coin < price) return msg.channel.send(`송금액이 자본금보다 많습니다. \n자본금 \`${users[i].coin}\``)
             
             users[i].coin -= price
             for (let j = 0; j < users.length; j++) {
