@@ -21,7 +21,7 @@ function buyTicket(cmd, msg) {
     
     if (typeof idx !== "number") return msg.channel.send("#가입을 먼저해 주십시오.")
     if (typeof count !== "number") return msg.channel.send("수량을 다시 한번 확인해 주십시오.")
-    if (count < 10) return msg.channel.send("최소 구매 수량은 10개입니다.")
+    if (count < 10 || count & 1 !== 0) return msg.channel.send("최소 구매 수량은 10개입니다.")
     if (users[idx].coin < ticketPrice * count) return msg.channel.send(`자본금이 부족합니다. 자본금 ${users[idx].coin}  티켓값 ${ticketPrice * count}`)
     
     users[idx].coin -= ticketPrice * count
