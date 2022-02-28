@@ -100,7 +100,11 @@ function donate(cmd, msg) {
     if (typeof price !== "number" || price < 10000 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액(최소 만원)")
     if (mention === undefined) return msg.channel.send("멘션을 재확인 해주십시오.")
     
-    const commission = 100000000 <= price ? 0 : Math.round(price * 0.07)
+    let commis = 0.07
+    if (price > 500000 && price <= 10000000) commis = 0.05 
+    if (price > 10000000 && price <= 100000000) commis = 0.01 
+    
+    const commission = Math.round(price * commis)
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === msg.author.id) {
@@ -114,7 +118,7 @@ function donate(cmd, msg) {
                     fs.writeFileSync('./data/user.json', JSON.stringify(users))
                     msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${price.toLocaleString('ko-KR')}원\`을 송금하셨습니다.
 \`${users[i].userName}\`님의 자본금은 이제 \`${users[i].coin.toLocaleString('ko-KR')}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${users[j].coin.toLocaleString('ko-KR')}원\`입니다.
-수수료 ${commission === 0 ? 0 : 7}% \`${commission.toLocaleString('ko-KR')}원\`
+수수료 ${commis}% \`${commission.toLocaleString('ko-KR')}원\`
 `)
                     return
                 }
