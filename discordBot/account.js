@@ -55,7 +55,7 @@ ${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
             embed.addFields({
                 name: `원가`,
                 inline: true,
-                value: `\`\`\`${(user.stock[i].principal / user.stock[i].count).toLocaleString('ko-KR')}원\`\`\``,
+                value: `\`\`\`${(user.stock[i].principal / user.stock[i].count).toFixed(1).toLocaleString('ko-KR')}원\`\`\``,
             })
         }
     }
