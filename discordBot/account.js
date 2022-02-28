@@ -107,6 +107,7 @@ function donate(cmd, msg) {
             if (users[i].coin < price + commission) return msg.channel.send(`송금액이 자본금보다 많습니다. \n자본금 \`${users[i].coin}\` 수수료 \`${commission}\``)
             
             users[i].coin -= price + commission
+            users[0].coin += commission
             for (let j = 0; j < users.length; j++) {
                 if (users[j].userId == mention) {
                     users[j].coin += price

@@ -26,6 +26,7 @@ function buyTicket(cmd, msg) {
     
     users[idx].coin -= ticketPrice * count
     users[idx].gambleTicket += count
+    users[0].coin += ticketPrice * count
     
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
     msg.channel.send(`구매에 성공하였습니다. 보유 티켓 ${users[idx].gambleTicket}  자본금 ${users[idx].coin}`)
