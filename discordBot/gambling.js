@@ -1,6 +1,37 @@
 const fs = require("fs")
 
 module.exports = (cmd, msg) => {
+    switch (cmd[1]) {
+        case "구매":
+            buyTicket(cmd, msg)
+            break
+        default: gambling(cmd, msg)
+    }
+}
+
+function buyTicket(cmd, msg) {
+    let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    let idx = undefined
+    const ticketPrice = 1000
+    const count = Number(cmd[2]) || ""
+    
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].userId === msg.author.id) idx = i
+    }
+    
+    if (typeof idx !== "number") return msg.channel.send("#가입을 먼저해 주십시오.")
+    if (typeof count !== "number") return msg.channel.send("수량을 다시 한번 확인해 주십시오.")
+    if (count < 10) return msg.channel.send("최소 구매 수량은 10개입니다.")
+    if (users[idx].coin < ticketPrice * count) return msg.channel.send(`자본금이 부족합니다. 자본금 ${users[idx].coin}  티켓값 ${ticketPrice * count}`)
+    
+    users[idx].coin -= ticketPrice * count
+    users[idx].gambleTicket += count
+    
+    fs.writeFileSync("./data/user.json", JSON.stringify(users))
+    msg.channel.send(`구매에 성공하였습니다. 보유 티켓 ${users[idx].gambleTicket}  자본금 ${users[idx].coin}`)
+}
+
+function gambling(cmd, msg) {
     const percentage = Number(cmd[1]) || null
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
     if(typeof percentage !== "number" || percentage > 5 || percentage < 1) return msg.channel.send(`잘못된 단계입니다. 도박의 단계은 1 ~ 5단계까지 있습니다.
@@ -18,6 +49,8 @@ module.exports = (cmd, msg) => {
     if (typeof idx !== "number") return msg.channel.send("가입되어있지 않은 계정입니다. \"#가입\"을 눌러 가입 후 이용하여 주십시오.")
     if (!Number(cmd[2]) || Number(cmd[2]) < 1) return msg.channel.send(`투입 금액을 다시 한번 확인해 주십시오.`)
     if (cmd[2] > users[idx].coin) return msg.channel.send(`자본금[${(users[idx].coin).toLocaleString('ko-KR')}]을 초과하는 금액은 사용 불가합니다.`)
+    if (users[idx].gambleTicket < 1) return msg.channel.send(`티켓 구매 후 도박을 진행할 수 있습니다.`)
+    users[idx].gambleTicket--
     
     switch(percentage) {
         case 1:
