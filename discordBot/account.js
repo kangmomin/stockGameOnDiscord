@@ -96,7 +96,7 @@ function donate(cmd, msg) {
     const price = Number(cmd[2]) || ""
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
 
-    if (typeof price !== "number" || price < 1 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액")
+    if (typeof price !== "number" || price < 10000 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액(최소 만원)")
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === msg.author.id) {
