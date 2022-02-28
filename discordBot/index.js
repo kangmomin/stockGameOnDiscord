@@ -7,8 +7,9 @@ const gambling = require("./gambling")
 require('dotenv').config()
 
 setInterval(() => {
-    updateStock()
-}, 1000 * 60 * 1)
+    const time = new Date().getSeconds()
+    if (time == 0) updateStock()
+}, 1000)
 
 client.on("ready", () => {
     console.log("all ready")
