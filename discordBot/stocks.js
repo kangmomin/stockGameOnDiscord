@@ -77,7 +77,8 @@ ${upDown.simple} [${dataValue[1].toLocaleString('ko-KR')}]  ${upDown.emoji} ${Ma
         })
     }
     
-    let embed = new Discord.MessageEmbed().setTitle(`주식 현황 [${stocks[0].date.pop()}]`).setColor(0x00D8FF)
+    const time = new Date().getSeconds()
+    let embed = new Discord.MessageEmbed().setTitle(`주식 현황 [${stocks[0].date.pop()}]`).setColor(0x00D8FF).setDescription(`${60 - time}초 후 갱신`)
     for (let i = 0; i < data.length; i++) {
         embed.addFields(data[i])
     }
