@@ -15,7 +15,7 @@ function signUp(msg) {
     })
     
     fs.writeFileSync("./data/user.json", JSON.stringify(user))
-    msg.channel.send("가입이 성공적으로 완료되었습니다. \n기본급 10만원이 지급됩니다.")
+    msg.channel.send("가입이 성공적으로 완료되었습니다. \n기본급 10만원이 지급됩니다.\n#설명서를 이용하여 명령어를 확인할 수 있습니다.")
 }
 
 function myAccount(msg) {
