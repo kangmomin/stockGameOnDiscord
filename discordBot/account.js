@@ -95,11 +95,12 @@ function donate(cmd, msg) {
     if (msg.mentions.users.values().next().value === undefined) return msg.channel.send("멘션을 재확인 해주십시오.")
     const mention = msg.mentions.users.values().next().value.id || undefined
     const price = Number(cmd[2]) || ""
-    const commission = Math.round(price * 0.07)
     let users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
-
+    
     if (typeof price !== "number" || price < 10000 || price % 1 !== 0) return msg.channel.send("송금액을 재확인 해주십시오. ex) #송금 유저멘션 송금액(최소 만원)")
     if (mention === undefined) return msg.channel.send("멘션을 재확인 해주십시오.")
+    
+    const commission = 100000000 <= price ? 0 : Math.round(price * 0.07)
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].userId === msg.author.id) {
@@ -112,7 +113,7 @@ function donate(cmd, msg) {
                     fs.writeFileSync('./data/user.json', JSON.stringify(users))
                     msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${price}원\`을 송금하셨습니다.
 \`${users[i].userName}\`님의 자본금은 이제 \`${users[i].coin}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${users[j].coin}원\`입니다.
-수수료 7% \`${commission}원\`
+수수료 ${commission === 0 ? 0 : 7}% \`${commission}원\`
 `)
                     return
                 }
