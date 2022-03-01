@@ -6,15 +6,15 @@ function getNewStock(last) {
     if (last > 17000) x = 6
     if (last > 20000) x = 10
     
-    const PorMrandom = Math.round((Math.random() * x))
-    if(PorMrandom == 1) {
-        let random = Math.ceil(Math.random() * 700)
-        if (random > 650) random = Math.ceil(Math.random() * 2000)
-        else if(random > 400) random = Math.ceil(Math.random() * 700)
+    const PorMrandom = Math.floor((Math.random() * x))
+    if(PorMrandom === 2) {
+        let random = Math.ceil(Math.random() * 500)
+        if (random > 450) random = Math.ceil(Math.random() * 2000)
+        else if(random > 350) random = Math.ceil(Math.random() * 500)
         return last + random
     } else if (PorMrandom === 0) {
         return last
-    }else {
+    } else if (PorMrandom > 2 || PorMrandom === 1) {
         if (last < 1) return 0
         let random = Math.ceil(Math.random() * -700)
         if (Math.ceil(Math.random() * 100000) === 1) return 0
