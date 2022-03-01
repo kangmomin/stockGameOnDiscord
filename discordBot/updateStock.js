@@ -20,7 +20,7 @@ function getNewStock(last) {
         if (Math.ceil(Math.random() * 100000) === 1) return 0
         if (random < -699) random = Math.ceil(Math.random() * -3000)
         else if (random < -650) random = Math.ceil(Math.random() * -2000)
-        else if(random < -400) random = Math.ceil(Math.random() * -700)
+        else if(random < -400) random = Math.ceil(Math.random() * -800)
         return last + random
     }     
 }
