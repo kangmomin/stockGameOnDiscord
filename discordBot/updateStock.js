@@ -1,10 +1,10 @@
 const fs = require('fs')
 
 function getNewStock(last) {
-    let x = last > 12000 ? 3 : 2
-    if (last > 15000) x = 4
-    if (last > 17000) x = 5
-    if (last > 20000) x = 8
+    let x = last > 12000 ? 4 : 3
+    if (last > 15000) x = 5
+    if (last > 17000) x = 6
+    if (last > 20000) x = 10
     
     const PorMrandom = Math.round((Math.random() * x))
     if(PorMrandom == 1) {
