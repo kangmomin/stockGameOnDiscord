@@ -9,7 +9,7 @@ function getNewStock(last) {
     const PorMrandom = Math.floor((Math.random() * x))
     if(PorMrandom === 2) {
         let random = Math.ceil(Math.random() * 500)
-        if (random > 450) random = Math.ceil(Math.random() * 2000)
+        if (random > 499) random = Math.ceil(Math.random() * 1500)
         else if(random > 350) random = Math.ceil(Math.random() * 500)
         return last + random
     } else if (PorMrandom === 0) {
