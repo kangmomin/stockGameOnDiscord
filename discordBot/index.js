@@ -12,6 +12,7 @@ setInterval(() => {
 }, 1000)
 
 client.on("ready", () => {
+    client.user.setActivity('#설명서', { type: 'WATCHING' })
     console.log("all ready")
 })
 
@@ -46,5 +47,4 @@ client.on("message", msg => {
 \`\`\``)
 })
 
-client.user.setActivity('#설명서', { type: 'WATCHING' })
 client.login(process.env.TOCKEN)
