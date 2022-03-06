@@ -46,4 +46,5 @@ client.on("message", msg => {
 \`\`\``)
 })
 
+client.user.setActivity('#설명서', { type: 'WATCHING' })
 client.login(process.env.TOCKEN)
