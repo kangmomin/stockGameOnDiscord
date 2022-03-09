@@ -191,14 +191,15 @@ function showBankMoney(msg) {
         creditRating = 0
     
     for (let i = 0; i < users.length; i++) {
-        if (msg.author.id === val.userId) {
+        if (msg.author.id === users[i].userId) {
             idx = i
             break
         }
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].tax < 100000000) creditRating = 1
+    if (users[idx].tax < 10000000) creditRating = 0
+    else if (users[idx].tax < 100000000) creditRating = 1
     else if (users[idx].tax < 1000000000) creditRating = 2
     else if (users[idx].tax < 10000000000) creditRating = 3
     else if (users[idx].tax < 100000000000) creditRating = 4
@@ -217,9 +218,9 @@ function showBankMoney(msg) {
 function loan(msg, cmd) {
     const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
     let idx = null,
-        creditRating = 0,
-        //기본 대출 가능 금핵 천만원
-        loanLimit = 10000000
+    creditRating = 0,
+    //기본 대출 가능 금핵 천만원
+    loanLimit = 10000000
     
     for (let i = 0; i < users.length; i++) {
         if (msg.author.id === val.userId) {
@@ -229,7 +230,8 @@ function loan(msg, cmd) {
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].tax < 100000000) creditRating = 1
+    if (users[idx].tax < 10000000) creditRating = 0
+    else if (users[idx].tax < 100000000) creditRating = 1
     else if (users[idx].tax < 1000000000) creditRating = 2
     else if (users[idx].tax < 10000000000) creditRating = 3
     else if (users[idx].tax < 100000000000) creditRating = 4
@@ -240,7 +242,7 @@ function loan(msg, cmd) {
     else if (users[idx].tax < 10000000000000000n) creditRating = 9
     else if (users[idx].tax < 100000000000000000n) creditRating = 10
     
-    if (Number(cmd[2]) > creditRating) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${users[idx].creditRating}]`)
+    if (Number(cmd[2]) > creditRating || creditRating === 0) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${users[idx].creditRating}]`)
     
     users[idx].coin += creditRating * 10 * loanLimit / 10 
     users[idx].tax -= creditRating * 10 * 100000000 / 10
