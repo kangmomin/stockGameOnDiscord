@@ -11,6 +11,8 @@ function signUp(msg) {
         userId: msg.author.id,
         userName: msg.author.tag,
         coin: 10000000,
+        bank: 0,
+        tax: 0,
         stock: []
     })
     
