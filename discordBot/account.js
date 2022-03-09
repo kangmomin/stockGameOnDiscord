@@ -242,7 +242,7 @@ function loan(msg, cmd) {
     else if (users[idx].tax < 10000000000000000n) creditRating = 9
     else if (users[idx].tax < 100000000000000000n) creditRating = 10
     
-    if (Number(cmd[2]) > creditRating || creditRating === 0) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${users[idx].creditRating}]`)
+    if (Number(cmd[2]) > creditRating || creditRating === 0) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${creditRating}]`)
     
     users[idx].coin += creditRating * 10 * loanLimit / 10 
     users[idx].tax -= creditRating * 10 * 100000000 / 10
