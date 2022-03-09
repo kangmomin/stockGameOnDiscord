@@ -198,17 +198,17 @@ function showBankMoney(msg) {
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].tax <= 10000000) creditRating = 0
-    else if (users[idx].tax <= 100000000) creditRating = 1
-    else if (users[idx].tax <= 1000000000) creditRating = 2
-    else if (users[idx].tax <= 10000000000) creditRating = 3
-    else if (users[idx].tax <= 100000000000) creditRating = 4
-    else if (users[idx].tax <= 1000000000000) creditRating = 5
-    else if (users[idx].tax <= 10000000000000) creditRating = 6
-    else if (users[idx].tax <= 100000000000000) creditRating = 7
-    else if (users[idx].tax <= 1000000000000000) creditRating = 8
-    else if (users[idx].tax <= 10000000000000000n) creditRating = 9
-    else if (users[idx].tax <= 100000000000000000n) creditRating = 10
+    if (users[idx].tax >= 100000000) creditRating = 1
+    else if (users[idx].tax >= 1000000000) creditRating = 2
+    else if (users[idx].tax >= 10000000000) creditRating = 3
+    else if (users[idx].tax >= 100000000000) creditRating = 4
+    else if (users[idx].tax >= 1000000000000) creditRating = 5
+    else if (users[idx].tax >= 10000000000000) creditRating = 6
+    else if (users[idx].tax >= 100000000000000) creditRating = 7
+    else if (users[idx].tax >= 1000000000000000) creditRating = 8
+    else if (users[idx].tax >= 10000000000000000n) creditRating = 9
+    else if (users[idx].tax >= 100000000000000000n) creditRating = 10
+    else creditRating = 0
     
     msg.channel.send(`고객님의 은행 잔고는 ${users[idx].bank.toLocaleString('ko-KR')}원 입니다.
 또한 신용 등급은 [${creditRating}]단계 입니다.
@@ -230,27 +230,28 @@ function loan(msg, cmd) {
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].tax <= 10000000) creditRating = 0
-    else if (users[idx].tax <= 100000000) creditRating = 1
-    else if (users[idx].tax <= 1000000000) creditRating = 2
-    else if (users[idx].tax <= 10000000000) creditRating = 3
-    else if (users[idx].tax <= 100000000000) creditRating = 4
-    else if (users[idx].tax <= 1000000000000) creditRating = 5
-    else if (users[idx].tax <= 10000000000000) creditRating = 6
-    else if (users[idx].tax <= 100000000000000) creditRating = 7
-    else if (users[idx].tax <= 1000000000000000) creditRating = 8
-    else if (users[idx].tax <= 10000000000000000n) creditRating = 9
-    else if (users[idx].tax <= 100000000000000000n) creditRating = 10
+    if (users[idx].tax >= 100000000) creditRating = 1
+    else if (users[idx].tax >= 1000000000) creditRating = 2
+    else if (users[idx].tax >= 10000000000) creditRating = 3
+    else if (users[idx].tax >= 100000000000) creditRating = 4
+    else if (users[idx].tax >= 1000000000000) creditRating = 5
+    else if (users[idx].tax >= 10000000000000) creditRating = 6
+    else if (users[idx].tax >= 100000000000000) creditRating = 7
+    else if (users[idx].tax >= 1000000000000000) creditRating = 8
+    else if (users[idx].tax >= 10000000000000000n) creditRating = 9
+    else if (users[idx].tax >= 100000000000000000n) creditRating = 10
+    else creditRating = 0
     
     if (Number(cmd[2]) > creditRating || creditRating === 0) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${creditRating}]`)
     
-    users[idx].coin += creditRating * 10 * loanLimit / 10 
-    users[idx].tax -= creditRating * 10 * loanLimit / 10
+    const loanAmount = creditRating * 10 * loanLimit / 10
+    users[idx].coin += loanAmount
+    users[idx].tax = users[idx].tax - loanAmount
     
     if (users[idx].tax < 100000000) creditRating = 1
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
 
-    msg.channel.send(`대출을 성공적으로 받았습니다. 대출금 ${(creditRating * 10 * loanLimit / 10).toLocaleString("ko-KR")}원
+    msg.channel.send(`대출을 성공적으로 받았습니다. 대출금 ${(loanAmount).toLocaleString("ko-KR")}원
 자본금 ${users[idx].coin.toLocaleString("ko-KR")}    신용등급 ${creditRating}
 `)
 }
