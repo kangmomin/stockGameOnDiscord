@@ -211,7 +211,7 @@ function showBankMoney(msg) {
     else creditRating = 0
     
     msg.channel.send(`고객님의 은행 잔고는 ${users[idx].bank.toLocaleString('ko-KR')}원 입니다.
-또한 신용 등급은 [${creditRating}]단계 입니다.
+신용 등급 [${creditRating}]단계    연속 세금 ${numberToKorean(users[idx].tax)}원 
 `)
 }
 
