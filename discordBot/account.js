@@ -214,6 +214,45 @@ function showBankMoney(msg) {
 `)
 }
 
+function loan(msg, cmd) {
+    const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    let idx = null,
+        creditRating = 0,
+        //기본 대출 가능 금핵 천만원
+        loanLimit = 10000000
+    
+    for (let i = 0; i < users.length; i++) {
+        if (msg.author.id === val.userId) {
+            idx = i
+            break
+        }
+    }
+    
+    if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
+    if (users[idx].tax < 100000000) creditRating = 1
+    else if (users[idx].tax < 1000000000) creditRating = 2
+    else if (users[idx].tax < 10000000000) creditRating = 3
+    else if (users[idx].tax < 100000000000) creditRating = 4
+    else if (users[idx].tax < 1000000000000) creditRating = 5
+    else if (users[idx].tax < 10000000000000) creditRating = 6
+    else if (users[idx].tax < 100000000000000) creditRating = 7
+    else if (users[idx].tax < 1000000000000000) creditRating = 8
+    else if (users[idx].tax < 10000000000000000n) creditRating = 9
+    else if (users[idx].tax < 100000000000000000n) creditRating = 10
+    
+    if (Number(cmd[2]) > creditRating) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${users[idx].creditRating}]`)
+    
+    users[idx].coin += creditRating * 10 * loanLimit / 10 
+    users[idx].tax -= creditRating * 10 * 100000000 / 10
+    
+    if (users[idx].tax < 100000000) creditRating = 1
+    fs.writeFileSync("./data/user.json", JSON.stringify(users))
+
+    msg.channel.send(`대출을 성공적으로 받았습니다. 대출금 ${(creditRating * 10 * loanLimit / 10).toLocaleString("ko-KR")}원
+자본금 ${users[idx].coin.toLocaleString("ko-KR")}    신용등급 ${creditRating}
+`)
+}
+
 module.exports = (cmd, msg) => {
     if (cmd[0] === "송금" && cmd.length < 2) return commissionList(msg)
     
@@ -229,7 +268,7 @@ module.exports = (cmd, msg) => {
         break
     }
     if (cmd[0] === "은행") {
-        switch(cmd[0]) {
+        switch(cmd[1]) {
             case "입금":
                 saveMoney(msg, cmd)
                 break
@@ -239,6 +278,25 @@ module.exports = (cmd, msg) => {
             case "통장":
                 showBankMoney(msg)
                 break
+            case "대출":
+                loan(msg, cmd)
+                break
+            case "한도":
+                msg.channel.send(`\`\`\`
+대출 한도입니다.
+1단계 최대 1억
+2단계 최대 10억
+3단계 최대 100억
+4단계 최대 100억
+5단계 최대 1조
+6단계 최대 10조
+7단계 최대 100조
+8단계 최대 100조
+9단계 최대 1경
+10단계 최대 10경
+\`\`\`
+`)
+            
         }
     }
 }
