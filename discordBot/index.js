@@ -28,6 +28,7 @@ client.on("message", msg => {
     if (cmd[0] === "도박") gambling(cmd, msg)
     if (cmd[0] === "ㄴ") account(cmd, msg)
     if (cmd[0] === "송금") account(cmd, msg)
+    if (cmd[0] === "은행") account(cmd, msg)
     if (cmd[0] === "설명서") msg.channel.send(`
 \`\`\`
 가입: #가입                           //가입한다. 기본금 1000만원을 획득한다.
