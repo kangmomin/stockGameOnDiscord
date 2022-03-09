@@ -144,17 +144,89 @@ function commissionList(msg) {
 `)
 }
 
+function saveMoney(msg, cmd) {
+    const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    let idx = null
+    
+    for (let i = 0; i < users.length; i++) {
+        if (msg.author.id === val.userId) {
+            idx = i
+            break
+        }
+    }
+    
+    if (users[idx].coin < cmd[2]) return msg.channel.send(`입금은 자본금인 [${users[idx].coin.toLocaleString('ko-KR')}]보다 많이 할 수 없습니다.`)
+    
+    users[idx].coin -= Number(cmd[2])
+    users[idx].bank += Number(cmd[2])
+    
+    fs.writeFileSync("./data/user.json", JSON.stringify(users))
+    msg.channel.send(`입금이 정상적으로 처리되었습니다.`)
+}
+
+function withDraw(msg, cmd) {
+    const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    let idx = null
+    
+    for (let i = 0; i < users.length; i++) {
+        if (msg.author.id === val.userId) {
+            idx = i
+            break
+        }
+    }
+    
+    if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
+    if (users[idx].bank < cmd[2]) return msg.channel.send(`출금은 입금된 잔고인 [${users[idx].coin.toLocaleString('ko-KR')}]보다 많이 할 수 없습니다.`)
+    
+    users[idx].coin += Number(cmd[2])
+    users[idx].bank -= Number(cmd[2])
+    
+    fs.writeFileSync("./data/user.json", JSON.stringify(users))
+    msg.channel.send(`입금이 정상적으로 처리되었습니다.`)
+}
+
+function showBankMoney(msg) {
+    const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    let idx = null
+    
+    for (let i = 0; i < users.length; i++) {
+        if (msg.author.id === val.userId) {
+            idx = i
+            break
+        }
+    }
+    
+    if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
+    msg.channel.send(`고객님의 은행 잔고는 ${users[idx].bank.toLocaleString('ko-KR')}원 입니다.
+또한 신용 등급은 [${users.creditRating}]단계 입니다.
+`)
+}
+
 module.exports = (cmd, msg) => {
     if (cmd[0] === "송금" && cmd.length < 2) return commissionList(msg)
+    
     switch(cmd[0]) {
         case "가입":
             signUp(msg)
-            break
+        break
         case "ㄴ":
             myAccount(msg)
-            break
+        break
         case "송금":
             donate(cmd, msg)
-            break
+        break
+    }
+    if (cmd[0] === "은행") {
+        switch(cmd[0]) {
+            case "입금":
+                saveMoney(msg, cmd)
+                break
+            case "출금":
+                withDraw(msg, cmd)
+                break
+            case "통장":
+                showBankMoney(msg)
+                break
+        }
     }
 }
