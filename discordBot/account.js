@@ -149,7 +149,7 @@ function saveMoney(msg, cmd) {
     let idx = null
     
     for (let i = 0; i < users.length; i++) {
-        if (msg.author.id === val.userId) {
+        if (msg.author.id === users[i].userId) {
             idx = i
             break
         }
@@ -169,7 +169,7 @@ function withDraw(msg, cmd) {
     let idx = null
     
     for (let i = 0; i < users.length; i++) {
-        if (msg.author.id === val.userId) {
+        if (msg.author.id === users[i].userId) {
             idx = i
             break
         }
@@ -223,7 +223,7 @@ function loan(msg, cmd) {
     loanLimit = 10000000
     
     for (let i = 0; i < users.length; i++) {
-        if (msg.author.id === val.userId) {
+        if (msg.author.id === users[i].userId) {
             idx = i
             break
         }
