@@ -5,7 +5,7 @@ function CollectionTax() {
     
     for (let i = 0; i < users.length; i++) {
         if (users[i].coin < 1000000000) {
-            users[i].tax = 0
+            users[i].tax--
             continue
         }
         users[i].tax = users[i].coin / 100000
