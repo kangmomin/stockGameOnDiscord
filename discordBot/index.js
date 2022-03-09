@@ -4,11 +4,13 @@ const stockRoute = require('./stocks')
 const updateStock = require('./updateStock')
 const account = require('./account')
 const gambling = require("./gambling")
+const collectionTax = require("./tax.js")
 require('dotenv').config()
 
 setInterval(() => {
-    const time = new Date().getSeconds()
-    if (time == 0) updateStock()
+    const time = new Date()
+    if (time.getSeconds() == 0) updateStock()
+    if (time.getHours() == 0) collectionTax()
 }, 1000)
 
 client.on("ready", () => {
