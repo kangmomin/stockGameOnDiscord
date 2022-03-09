@@ -187,7 +187,8 @@ function withDraw(msg, cmd) {
 
 function showBankMoney(msg) {
     const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
-    let idx = null
+    let idx = null,
+        creditRating = 0
     
     for (let i = 0; i < users.length; i++) {
         if (msg.author.id === val.userId) {
@@ -197,8 +198,19 @@ function showBankMoney(msg) {
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
+    if (users[idx].tax < 100000000) creditRating = 1
+    else if (users[idx].tax < 1000000000) creditRating = 2
+    else if (users[idx].tax < 10000000000) creditRating = 3
+    else if (users[idx].tax < 100000000000) creditRating = 4
+    else if (users[idx].tax < 1000000000000) creditRating = 5
+    else if (users[idx].tax < 10000000000000) creditRating = 6
+    else if (users[idx].tax < 100000000000000) creditRating = 7
+    else if (users[idx].tax < 1000000000000000) creditRating = 8
+    else if (users[idx].tax < 10000000000000000n) creditRating = 9
+    else if (users[idx].tax < 100000000000000000n) creditRating = 10
+    
     msg.channel.send(`고객님의 은행 잔고는 ${users[idx].bank.toLocaleString('ko-KR')}원 입니다.
-또한 신용 등급은 [${users.creditRating}]단계 입니다.
+또한 신용 등급은 [${creditRating}]단계 입니다.
 `)
 }
 
