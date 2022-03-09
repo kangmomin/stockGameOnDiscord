@@ -176,7 +176,7 @@ function withDraw(msg, cmd) {
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].bank < cmd[2]) return msg.channel.send(`출금은 입금된 잔고인 [${users[idx].coin.toLocaleString('ko-KR')}]보다 많이 할 수 없습니다.`)
+    if (users[idx].bank < cmd[2]) return msg.channel.send(`출금은 입금된 잔고인 [${users[idx].coin.toLocaleString('ko-KR')}]원보다 많이 할 수 없습니다.`)
     
     users[idx].coin += Number(cmd[2])
     users[idx].bank -= Number(cmd[2])
@@ -210,7 +210,7 @@ function showBankMoney(msg) {
     else if (users[idx].tax >= 100000000) creditRating = 1
     else creditRating = 0
     
-    msg.channel.send(`고객님의 은행 잔고는 ${users[idx].bank.toLocaleString('ko-KR')}원 입니다.
+    msg.channel.send(`고객님의 은행 잔고는 ${numberToKorean(users[idx].bank)}원 입니다.
 신용 등급 [${creditRating}]단계    연속 세금 ${numberToKorean(users[idx].tax)}원 
 `)
 }
@@ -250,8 +250,8 @@ function loan(msg, cmd) {
 
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
 
-    msg.channel.send(`대출을 성공적으로 받았습니다. 대출금 ${(loanAmount).toLocaleString("ko-KR")}원
-자본금 ${users[idx].coin.toLocaleString("ko-KR")}    신용등급 ${creditRating}
+    msg.channel.send(`대출을 성공적으로 받았습니다. 대출금 ${numberToKorean(loanAmount)}원
+자본금 ${numberToKorean(users[idx].coin)}    신용등급 ${creditRating}
 `)
 }
 
