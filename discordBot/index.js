@@ -1,7 +1,11 @@
 const { Client, Intents } = require("discord.js")
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 const stockRoute = require('./stocks')
-const {updateStock, collectionTax} = require('./iterable.js')
+const {
+    updateStock,
+    collectionTax,
+    interest
+} = require('./iterable.js')
 const account = require('./account')
 const gambling = require("./gambling")
 require('dotenv').config()
@@ -9,7 +13,10 @@ require('dotenv').config()
 setInterval(() => {
     const time = new Date()
     if (time.getSeconds() === 0) updateStock()
-    if (time.getHours() === 0 || time.getMinutes() === 0) collectionTax()
+    if (time.getHours() === 0 || time.getMinutes() === 0) {
+        collectionTax()
+        interest()
+    }
 }, 1000)
 
 client.on("ready", () => {
@@ -50,6 +57,7 @@ client.on("message", msg => {
 송금: #송금 [멘션] [가격(최소 만원)]  // 멘션한 유저에게 돈을 송금한다.
 
 은행 1: #은행 입금 [입금액]           // 은행에 돈을 입금한다.
+    *은행의 일 이자율을 0.0001%이다.
 은행 2: #은행 출금 [출금액]           // 은행에서 돈을 출금한다.
 은행 3: #은행 통장                    // 현재 은행에 입금되어있는 금액확인 및 신용등급 확인
 은행 4: #은행 한도                    // 각 단계별 한도 확인

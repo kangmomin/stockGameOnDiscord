@@ -70,7 +70,18 @@ function updateStock() {
     return stocks
 }
 
+function interest() {
+    let user = JSON.parse(fs.readFileSync("./data/user.json", "utf-8"))
+    
+    for (let i = 0; i < user.length; i++) {
+        user[i].bank += Math.round(user[i].bank/1000000)
+    }
+
+    fs.writeFileSync("./data/user.json", JSON.stringify(user))
+}
+
 module.exports = {
     collectionTax,
-    updateStock
+    updateStock,
+    interest
 }
