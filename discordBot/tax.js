@@ -9,10 +9,10 @@ function CollectionTax() {
             if (users[i].tax < 0) users[i].tax = 0
             continue
         }
-        users[i].tax = Math.round(users[i].coin / 100000)
+        users[i].tax = Math.round(users[i].coin / 50000)
 
         // 10억 이상의 금액을 소유하고있으면 0.001%의 금액을 세금으로서 징수
-        users[i].coin -= Math.round(users[i].coin / 100000)
+        users[i].coin -= Math.round(users[i].coin / 50000)
     }
     
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
