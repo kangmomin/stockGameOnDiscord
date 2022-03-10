@@ -9,8 +9,8 @@ require('dotenv').config()
 
 setInterval(() => {
     const time = new Date()
-    if (time.getSeconds() == 0) updateStock()
-    if (time.getHours() == 0) collectionTax()
+    if (time.getSeconds() === 0) updateStock()
+    if (time.getHours() === 0 || time.getMinutes() === 0) collectionTax()
 }, 1000)
 
 client.on("ready", () => {
