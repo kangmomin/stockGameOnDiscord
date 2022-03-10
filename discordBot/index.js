@@ -1,10 +1,9 @@
 const { Client, Intents } = require("discord.js")
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] })
 const stockRoute = require('./stocks')
-const updateStock = require('./updateStock')
+const {updateStock, collectionTax} = require('./iterable.js')
 const account = require('./account')
 const gambling = require("./gambling")
-const collectionTax = require("./tax.js")
 require('dotenv').config()
 
 setInterval(() => {

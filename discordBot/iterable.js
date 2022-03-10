@@ -1,5 +1,23 @@
 const fs = require('fs')
 
+function collectionTax() {
+    const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].coin < 1000000000) {
+            users[i].tax -= 10000000
+            if (users[i].tax < 0) users[i].tax = 0
+            continue
+        }
+        users[i].tax = Math.round(users[i].coin / 50000)
+
+        // 10억 이상의 금액을 소유하고있으면 0.001%의 금액을 세금으로서 징수
+        users[i].coin -= Math.round(users[i].coin / 50000)
+    }
+    
+    fs.writeFileSync("./data/user.json", JSON.stringify(users))
+}
+
 function getNewStock(last) {
     let x = last > 12000 ? 4 : 3
     if (last > 15000) x = 5
@@ -21,7 +39,8 @@ function getNewStock(last) {
         return last + random
     }     
 }
-module.exports = () => {
+
+function updateStock() {
     let stocks = JSON.parse(fs.readFileSync("./data/stocks.json", "utf-8"))
     let user = JSON.parse(fs.readFileSync("./data/user.json", "utf-8"))
     const Day = new Date()
@@ -49,4 +68,9 @@ module.exports = () => {
     fs.writeFileSync("./data/stocks.json", JSON.stringify(stocks))
     fs.writeFileSync("./data/user.json", JSON.stringify(user))
     return stocks
+}
+
+module.exports = {
+    collectionTax,
+    updateStock
 }
