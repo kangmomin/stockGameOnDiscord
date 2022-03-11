@@ -97,7 +97,7 @@ function donate(cmd, msg) {
                 if (users[j].userId == mention) {
                     users[j].coin += price
                     fs.writeFileSync('./data/user.json', JSON.stringify(users))
-                    msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${'경'}원\`을 송금하셨습니다.
+                    msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${numberToKorean(price)}원\`을 송금하셨습니다.
 \`${users[i].userName}\`님의 자본금은 이제 \`${numberToKorean(users[i].coin)}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${numberToKorean(users[j].coin)}원\`입니다.
 수수료 ${commis}% \`${numberToKorean(commission)}원\`
 `)
