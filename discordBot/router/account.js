@@ -157,6 +157,7 @@ function saveMoney(msg, cmd) {
         }
     }
     
+    if (users[idx].coin === null) users[idx].coin = 0
     if (users[idx].coin < cmd[2]) return msg.channel.send(`입금은 자본금인 [${users[idx].coin.toLocaleString('ko-KR')}]보다 많이 할 수 없습니다.`)
     
     users[idx].coin -= Number(cmd[2])
@@ -248,7 +249,7 @@ function loan(msg, cmd) {
     
     const loanAmount = (creditRating ** 10) * loanLimit / 10
     users[idx].coin += loanAmount
-    users[idx].tax = users[idx].tax - loanAmount
+    users[idx].tax = 0
 
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
 
