@@ -270,6 +270,7 @@ function giveTax(msg, cmd) {
         users[i].tax += Number(cmd[2])
     }
     
+    msg.channel.send(`성공적으로 납부되셨습니다. [#은행 통장]을 통해 확인해 주십시오.`)
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
 }
 
