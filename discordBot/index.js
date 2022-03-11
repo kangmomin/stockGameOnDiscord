@@ -13,7 +13,7 @@ require('dotenv').config()
 setInterval(() => {
     const time = new Date()
     if (time.getSeconds() === 0) updateStock()
-    if ((time.getHours() === 12 || time.getHours() === 0) && time.getMinutes() === 0) {
+    if ((time.getHours() === 12 && time.getMinutes() === 0) || (time.getMinutes() === 0 && time.getHours() === 0)) {
         collectionTax()
         interest()
     }
