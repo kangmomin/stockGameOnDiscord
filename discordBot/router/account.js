@@ -162,7 +162,7 @@ function withDraw(msg, cmd) {
     users[idx].bank -= Number(cmd[2])
     
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
-    msg.channel.send(`입금이 정상적으로 처리되었습니다.`)
+    msg.channel.send(`출금이 정상적으로 처리되었습니다.`)
 }
 
 function showBankMoney(msg) {
