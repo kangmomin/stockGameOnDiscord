@@ -258,6 +258,21 @@ function loan(msg, cmd) {
 `)
 }
 
+function giveTax(msg, cmd) {
+    const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
+    
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].userId !== msg.author.id) continue
+
+        if (cmd[2] < 1 || !Number(cmd[2])) return msg.channel.send(`명령어를 다시 한번 확인해 주십시오.`)
+        if (users[i].coin < Number(cmd[2])) return msg.channel.send(`자본금을 초과하는 금액은 사용할 수 없습니다.`)
+        users[i].coin -= Number(cmd[2])
+        users[i].tax += Number(cmd[2])
+    }
+    
+    fs.writeFileSync("./data/user.json", JSON.stringify(users))
+}
+
 module.exports = (cmd, msg) => {
     if (cmd[0] === "송금" && cmd.length < 2) return commissionList(msg)
     
@@ -285,6 +300,9 @@ module.exports = (cmd, msg) => {
                 break
             case "대출":
                 loan(msg, cmd)
+                break
+            case "납부":
+                giveTax(msg, cmd)
                 break
             case "한도":
                 msg.channel.send(`\`\`\`
