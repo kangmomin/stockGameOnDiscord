@@ -1,5 +1,6 @@
 const fs = require("fs")
 const Discord = require('discord.js')
+const {numberToKorean} = require('../util/util')
 
 function signUp(msg) {
     let user = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
@@ -44,20 +45,20 @@ function myAccount(msg) {
             totalPorM += PorM
             embed.addFields({
                 name: `> ${user.stock[i].name}`,
-                value: `\`\`\`${user.stock[i].count.toLocaleString('ko-KR')}주\`\`\``,
+                value: `\`\`\`${numberToKorean(user.stock[i].count)}주\`\`\``,
                 inline: true
             })
             embed.addFields({
                 name: `손익`,
                 inline: true,
                 value: `\`\`\`diff
-${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
+${upDown.simple} ${numberToKorean(Math.abs(PorM))}원
 \`\`\``,
             })
             embed.addFields({
                 name: `원가`,
                 inline: true,
-                value: `\`\`\`${(user.stock[i].principal / user.stock[i].count).toFixed(1).toLocaleString('ko-KR')}원\`\`\``,
+                value: `\`\`\`${numberToKorean((user.stock[i].principal / user.stock[i].count).toFixed(1))}원\`\`\``,
             })
         }
     }
@@ -67,30 +68,6 @@ ${upDown.simple} ${Math.abs(PorM).toLocaleString('ko-KR')}원
     embed.setDescription(`자본금 ${numberToKorean(user.coin)}원\n전체 손익 ${totalPorM}원\n도박 티켓 ${user.gambleTicket}장`)
 
     msg.channel.send({embeds: [embed]})
-}
-
-function numberToKorean(number){
-    let inputNumber  = number < 0 ? false : number;
-    let unitWords    = ['', '만', '억', '조', '경'];
-    let splitUnit    = 10000;
-    let splitCount   = unitWords.length;
-    let resultArray  = [];
-    let resultString = '';
-
-    for (let i = 0; i < splitCount; i++){
-         let unitResult = (inputNumber % Math.pow(splitUnit, i + 1)) / Math.pow(splitUnit, i);
-        unitResult = Math.floor(unitResult);
-        if (unitResult > 0){
-            resultArray[i] = unitResult;
-        }
-    }
-
-    for (let i = 0; i < resultArray.length; i++){
-        if(!resultArray[i]) continue;
-        resultString = String(resultArray[i]) + unitWords[i] + resultString;
-    }
-
-    return resultString;
 }
 
 function donate(cmd, msg) {
@@ -120,9 +97,9 @@ function donate(cmd, msg) {
                 if (users[j].userId == mention) {
                     users[j].coin += price
                     fs.writeFileSync('./data/user.json', JSON.stringify(users))
-                    msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${price.toLocaleString('ko-KR')}원\`을 송금하셨습니다.
-\`${users[i].userName}\`님의 자본금은 이제 \`${users[i].coin.toLocaleString('ko-KR')}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${users[j].coin.toLocaleString('ko-KR')}원\`입니다.
-수수료 ${commis}% \`${commission.toLocaleString('ko-KR')}원\`
+                    msg.channel.send(`${users[i].userName}님이 ${users[j].userName}님에게 \`${'경'}원\`을 송금하셨습니다.
+\`${users[i].userName}\`님의 자본금은 이제 \`${numberToKorean(users[i].coin)}원\`이며 \`${users[j].userName}\`님의 자본금은 이제 \`${numberToKorean(users[j].coin)}원\`입니다.
+수수료 ${commis}% \`${numberToKorean(commission)}원\`
 `)
                     return
                 }
@@ -158,7 +135,7 @@ function saveMoney(msg, cmd) {
     }
     
     if (users[idx].coin === null) users[idx].coin = 0
-    if (users[idx].coin < cmd[2]) return msg.channel.send(`입금은 자본금인 [${users[idx].coin.toLocaleString('ko-KR')}]보다 많이 할 수 없습니다.`)
+    if (users[idx].coin < cmd[2]) return msg.channel.send(`입금은 자본금인 [${numberToKorean(users[idx].coin)}]보다 많이 할 수 없습니다.`)
     
     users[idx].coin -= Number(cmd[2])
     users[idx].bank += Number(cmd[2])
@@ -179,7 +156,7 @@ function withDraw(msg, cmd) {
     }
     
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].bank < cmd[2]) return msg.channel.send(`출금은 입금된 잔고인 [${users[idx].coin.toLocaleString('ko-KR')}]원보다 많이 할 수 없습니다.`)
+    if (users[idx].bank < cmd[2]) return msg.channel.send(`출금은 입금된 잔고인 [${numberToKorean(users[idx].coin)}]원보다 많이 할 수 없습니다.`)
     
     users[idx].coin += Number(cmd[2])
     users[idx].bank -= Number(cmd[2])
