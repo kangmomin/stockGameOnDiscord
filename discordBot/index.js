@@ -13,7 +13,7 @@ require('dotenv').config()
 setInterval(() => {
     const time = new Date()
     if (time.getSeconds() === 0) updateStock()
-    if (time.getHours() === 0 && time.getMinutes() === 0) {
+    if ((time.getHours() === 12 || time.getHours() === 0) && time.getMinutes() === 0) {
         collectionTax()
         interest()
     }
@@ -37,7 +37,7 @@ client.on("message", msg => {
     if (cmd[0] === "은행") account(cmd, msg)
     if (cmd[0] === "설명서") msg.channel.send(`
 \`\`\`
-세금: 매일 0시에 10억이상을 보유한 유저에게서 보유금의 0.05%를 징수해간다.
+세금: 매일 0시와 12시에 10억이상을 보유한 유저에게서 보유금의 0.05%를 징수해간다.
 
 가입: #가입                           // 가입한다. 기본금 1000만원을 획득한다.
 
