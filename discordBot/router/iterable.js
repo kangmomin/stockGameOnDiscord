@@ -36,8 +36,9 @@ function getNewStock(last) {
         let random = Math.ceil(Math.random() * -700)
         if (Math.ceil(Math.random() * 100000) === 1) return 0
         else if(random < -400) random = Math.ceil(Math.random() * -800)
+        if (last + random === 0) random = Math.ceil(Math.random() * 100)
         return last + random
-    }     
+    }
 }
 
 function updateStock() {
