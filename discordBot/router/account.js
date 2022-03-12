@@ -222,9 +222,9 @@ function loan(msg, cmd) {
     else if (users[idx].tax >= 100000000) creditRating = 1
     else creditRating = 0
     
-    if (Number(cmd[2]) > creditRating || creditRating === 0) return msg.channel.send(`대출 한도를 다시 확인해 주세요. 신용등급[${creditRating}]`)
+    if (users[idx].coin !== 0 || users[idx].bank !== 0) return msg.channel.send("대출을 받으실 수 없습니다.")
     
-    const loanAmount = (creditRating ** 10) * loanLimit / 10
+    const loanAmount = users[idx].tax + Math.ceil(users[idx].tax * (creditRating / 10))
     users[idx].coin += loanAmount
     users[idx].tax = 0
 
@@ -285,16 +285,7 @@ module.exports = (cmd, msg) => {
             case "한도":
                 msg.channel.send(`\`\`\`
 대출 한도입니다.
-1단계 최대 1억
-2단계 최대 10억
-3단계 최대 100억
-4단계 최대 1000억
-5단계 최대 1조
-6단계 최대 10조
-7단계 최대 100조
-8단계 최대 1000조
-9단계 최대 1경
-10단계 최대 10경
+원금 + (신용 등급 * 10)% 
 \`\`\`
 `)
             
