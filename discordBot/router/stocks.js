@@ -115,6 +115,7 @@ function saleStock(cmd, msg) {
     
             for(let j = 0; j < user[idx].stock.length; j++) {
                 if (user[idx].stock[j].name == stocks[i].label) {
+                    user[idx].principal -= (user[idx].principal / user[idx].stock[j].count) * count
                     user[idx].stock[j].count -= count
                     if (user[idx].stock[j].count < 1) user[idx].stock[j].principal = 0
                 }
