@@ -14,6 +14,7 @@ function signUp(msg) {
         coin: 10000000,
         bank: 0,
         tax: 0,
+        gambleTicket: 0,
         stock: []
     })
     

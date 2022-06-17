@@ -11,7 +11,7 @@ async function showStockChart(cmd, msg) {
     for (let i = 0; i < stocks.length; i++) {
         stocks_min.push({
             label: stocks[i].label,
-            data: stocks[i].data.slice(stocks[i].data.length - 20),
+            data: stocks[i].data.slice(stocks[i].data.length - 100),
             borderColor: stocks[i].borderColor,
             borderWidth: 1,
             fill: false
@@ -21,7 +21,7 @@ async function showStockChart(cmd, msg) {
     const myChart = new QuickChart();
     myChart.setConfig({
         type: 'line',
-        data: { labels: stocks[0].date.slice(stocks[0].date.length - 20), datasets: stocks_min },
+        data: { labels: stocks[0].date.slice(stocks[0].date.length - 100), datasets: stocks_min },
         options: {
             display: true
         }
@@ -37,7 +37,7 @@ async function showOneChart(cmd, msg) {
         if (cmd[2] == stocks[i].label) {
             stocks_min.push({
                 label: stocks[i].label,
-                data: stocks[i].data.slice(stocks[i].data.length - 20),
+                data: stocks[i].data.slice(stocks[i].data.length - 100),
                 borderColor: stocks[i].borderColor,
                 borderWidth: 1,
                 fill: false
@@ -50,7 +50,7 @@ async function showOneChart(cmd, msg) {
     const myChart = new QuickChart();
     myChart.setConfig({
         type: 'line',
-        data: { labels: stocks[0].date.slice(stocks[0].date.length - 20), datasets: stocks_min },
+        data: { labels: stocks[0].date.slice(stocks[0].date.length - 100), datasets: stocks_min },
         options: {
             display: true
         }
@@ -158,6 +158,7 @@ function buyStock(cmd, msg) {
                 if (user[idx].stock[j].name == stocks[i].label) {
                     user[idx].stock[j].count += count
                     user[idx].stock[j].principal += (Number(stocks[i].data[stocks[i].data.length - 1]) * count)
+                    user[idx].stock[j].cost = Number(stocks[i].data[stocks[i].data.length - 1]) 
                     isWork = true
                 }
             }
@@ -166,6 +167,7 @@ function buyStock(cmd, msg) {
                 user[idx].stock.push({
                     name: stocks[i].label,
                     principal: (Number(stocks[i].data[stocks[i].data.length - 1]) * count),
+                    cost: Number(stocks[i].data[stocks[i].data.length - 1]),
                     count,
                 })
             }

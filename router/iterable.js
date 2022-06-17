@@ -64,7 +64,7 @@ function updateStock() {
         stocks[i].date.push(date)
         
         stocks[i].data.shift()
-        stocks[i].date.shift()
+        // stocks[i].date.shift()
     }
     fs.writeFileSync("./data/stocks.json", JSON.stringify(stocks))
     fs.writeFileSync("./data/user.json", JSON.stringify(user))
