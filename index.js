@@ -8,6 +8,7 @@ const {
 } = require('./router/iterable.js')
 const account = require('./router/account')
 const gambling = require("./router/gambling")
+const era = require("./router/era")
 require('dotenv').config()
 
 setInterval(() => {
@@ -35,7 +36,7 @@ client.on("message", msg => {
     if (cmd[0] === "ㄴ") account(cmd, msg)
     if (cmd[0] === "송금") account(cmd, msg)
     if (cmd[0] === "은행") account(cmd, msg)
-    if (cmd[0] === "긴급구제신청") ERA(cmd, msg)
+    if (cmd[0] === "긴급구제신청") era(cmd, msg)
     if (cmd[0] === "설명서") msg.channel.send(`
 \`\`\`
 세금: 매일 0시와 12시에 10억이상을 보유한 유저에게서 보유금의 0.05%를 징수해간다.

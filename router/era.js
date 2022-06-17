@@ -1,3 +1,5 @@
+const fs = require("fs")
+
 function era(cmd, msg) {
     const users = JSON.parse(fs.readFileSync("./data/user.json", 'utf-8'))
     let idx = null
@@ -24,6 +26,4 @@ function era(cmd, msg) {
     msg.channel.send("긴급구제신청이 받아드려졌습니다. [#ㄴ]을 통해 자본금을 확인해주세요.")
 }
 
-module.exports = {
-    era
-}
+module.exports = era
