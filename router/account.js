@@ -15,6 +15,7 @@ function signUp(msg) {
         bank: 0,
         tax: 0,
         gambleTicket: 0,
+        era: 3,
         stock: []
     })
     
@@ -69,6 +70,7 @@ ${upDown.simple} ${numberToKorean(Math.abs(PorM))}원
     embed.setDescription(`자본금 ${numberToKorean(user.coin)}원\n전체 손익 ${totalPorM}원\n도박 티켓 ${user.gambleTicket}장`)
 
     msg.channel.send({embeds: [embed]})
+    msg.channel.send("긴급구제신청 가능 횟수: "+user.era)
 }
 
 function donate(cmd, msg) {
