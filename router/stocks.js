@@ -11,7 +11,7 @@ async function showStockChart(cmd, msg) {
     for (let i = 0; i < stocks.length; i++) {
         stocks_min.push({
             label: stocks[i].label,
-            data: stocks[i].data.slice(stocks[i].data.length - 100),
+            data: stocks[i].data.slice(stocks[i].data.length - 50),
             borderColor: stocks[i].borderColor,
             borderWidth: 1,
             fill: false
@@ -21,7 +21,7 @@ async function showStockChart(cmd, msg) {
     const myChart = new QuickChart();
     myChart.setConfig({
         type: 'line',
-        data: { labels: stocks[0].date.slice(stocks[0].date.length - 100), datasets: stocks_min },
+        data: { labels: stocks[0].date.slice(stocks[0].date.length - 50), datasets: stocks_min },
         options: {
             display: true
         }
