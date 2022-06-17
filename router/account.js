@@ -157,12 +157,15 @@ function withDraw(msg, cmd) {
             break
         }
     }
-    
     if (idx === null) return msg.channel.send("[#가입]을 먼저 진행해 주십시오.")
-    if (users[idx].bank < cmd[2]) return msg.channel.send(`출금은 입금된 잔고인 [${numberToKorean(users[idx].coin)}]원보다 많이 할 수 없습니다.`)
+    if (cmd[2] == "다") cmd[2] = users[idx].bank
+    cmd[2] = Number(cmd[2]) || false
+    if (!cmd[2]) return msg.channel.send("정상적인 값을 입력해 주십시오.")
+    if (users[idx].bank < Number(cmd[2])) return msg.channel.send(`출금은 입금된 잔고인 [${numberToKorean(users[idx].coin)}]원보다 많이 할 수 없습니다.`)
     
     users[idx].coin += Number(cmd[2])
     users[idx].bank -= Number(cmd[2])
+    console.log(users[idx])
     
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
     msg.channel.send(`출금이 정상적으로 처리되었습니다.`)
