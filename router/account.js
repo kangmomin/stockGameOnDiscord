@@ -165,7 +165,6 @@ function withDraw(msg, cmd) {
     
     users[idx].coin += Number(cmd[2])
     users[idx].bank -= Number(cmd[2])
-    console.log(users[idx])
     
     fs.writeFileSync("./data/user.json", JSON.stringify(users))
     msg.channel.send(`출금이 정상적으로 처리되었습니다.`)
